@@ -38,7 +38,7 @@ pipeline{
 	    }
     }
 	  
-    stage ('mysql run on remote') {
+    stage('mysql run on remote') {
 	    steps {
 		    sh 'docker run -d -p $PORT_mysql:3306 --name mysql-$GIT_COMMIT -e MYSQL_ROOT_PASSWORD=root mysql'  
 		    sh 'sleep 30'
