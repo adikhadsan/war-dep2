@@ -40,7 +40,7 @@ pipeline{
 	  
     stage('mysql run on remote') {
 	    steps {
-		    sh 'docker run -d -p $PORT_mysql:3306 --name mysql-$GIT_COMMIT -e MYSQL_ROOT_PASSWORD=root mysql'  
+		    sh 'docker run -d -p $MYSQL_PORT:3306 --name mysql-$GIT_COMMIT -e MYSQL_ROOT_PASSWORD=root mysql'  
 		    sh 'sleep 30'
 // 		    sh 'ansible-playbook container-playbook.yml --extra-vars "image_name=$DB_IMG port=$MYSQL_PORT passwd=$MYSQL_PASS"'
 	    }
@@ -74,7 +74,7 @@ pipeline{
     stage('docker run on remote'){
 	    steps{
 // 		    sh 'ansible-playbook application.yml --extra-vars "image_name=$USER_DOCKER/$IMG_NAME:$GIT_COMMIT port=$PORT_app"' 
-		    sh 'docker run -d -p $PORT_app:8080 --name db-application-$GIT_COMMIT 8485012281/db-application:$GIT_COMMIT'
+		    sh 'docker run -d -p $PORT_app:8080 --name $IMG_NAME-$GIT_COMMIT $USER_DOCKER/$IMG_NAME:$GIT_COMMIT'
 		    sh 'sleep 30'
 		    sh 'docker ps'
 	    }
