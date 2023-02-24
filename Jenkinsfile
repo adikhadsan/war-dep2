@@ -56,7 +56,7 @@ pipeline{
 		      cp $FILE_PATH/target/"${fname}"*.war .
 		      '''
 	    }
-   }	  
+    }	  
 	  
 	  
     stage('docker build'){
