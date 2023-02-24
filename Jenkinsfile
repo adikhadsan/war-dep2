@@ -34,7 +34,7 @@ pipeline{
     stage('docker login on remote machine'){
 	    steps{
 // 		    sh 'ansible-playbook login.yml --extra-vars "uname=$USER_DOCKER passwd=$PASS_DOCKER"'
-		    sh 'docker login -u $USER_DOCKER -p $PASS_DOCKER
+		    sh 'docker login -u $USER_DOCKER -p $PASS_DOCKER'
 	    }
     }
 	  
