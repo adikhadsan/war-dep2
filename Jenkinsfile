@@ -13,33 +13,34 @@ pipeline{
 	        DB_IMG= 'mysql'
 	        MYSQL_PASS= 'root'
 	        MYSQL_PORT= 5000
-	        docker= sh(script: 'sshpass -p s1 ssh vboxuser@192.168.56.102 docker --version',returnStdout: true)
+// 	        docker= sh(script: 'sshpass -p s1 ssh vboxuser@192.168.56.102 docker --version',returnStdout: true)
 // 	        file_path=""
 	}
  
   
   stages{
 	  
-    stage('docker check on remote ') {
-	       when { environment name: 'docker', value: '' }
-	       steps {
-		       echo "${docker}"
-		       sh 'ansible-playbook docker-playbook.yml'
-	       }
-    } 
+//     stage('docker check on remote ') {
+// 	       when { environment name: 'docker', value: '' }
+// 	       steps {
+// 		       echo "${docker}"
+// 		       sh 'ansible-playbook docker-playbook.yml'
+// 	       }
+//     } 
 	  
     	   
     stage('docker login on remote machine'){
 	    steps{
-		    sh 'ansible-playbook login.yml --extra-vars "uname=$USER_DOCKER passwd=$PASS_DOCKER"'
+// 		    sh 'ansible-playbook login.yml --extra-vars "uname=$USER_DOCKER passwd=$PASS_DOCKER"'
+		    sh 'docker login -u $USER_DOCKER -p $PASS_DOCKER
 	    }
     }
 	  
     stage ('mysql run on remote') {
 	    steps {
-// 		    sh 'docker run -d -p $PORT_mysql:3306 --net static --ip 10.11.0.12 --name mysql-$GIT_COMMIT -e MYSQL_ROOT_PASSWORD=root mysql'  
-// 		    sh 'sleep 30'
-		    sh 'ansible-playbook container-playbook.yml --extra-vars "image_name=$DB_IMG port=$MYSQL_PORT passwd=$MYSQL_PASS"'
+		    sh 'docker run -d -p $PORT_mysql:3306 --name mysql-$GIT_COMMIT -e MYSQL_ROOT_PASSWORD=root mysql'  
+		    sh 'sleep 30'
+// 		    sh 'ansible-playbook container-playbook.yml --extra-vars "image_name=$DB_IMG port=$MYSQL_PORT passwd=$MYSQL_PASS"'
 	    }
     } 
 	  
@@ -69,8 +70,8 @@ pipeline{
 	  
     stage('docker run on remote'){
 	    steps{
-		    sh 'ansible-playbook application.yml --extra-vars "image_name=$USER_DOCKER/$IMG_NAME:$GIT_COMMIT port=$PORT_app"' 
-// 		    sh 'docker run -d -p $PORT_app:8080 --net static --ip 10.11.0.13 --name db-application-$GIT_COMMIT 8485012281/db-application:$GIT_COMMIT'
+// 		    sh 'ansible-playbook application.yml --extra-vars "image_name=$USER_DOCKER/$IMG_NAME:$GIT_COMMIT port=$PORT_app"' 
+		    sh 'docker run -d -p $PORT_app:8080 --name db-application-$GIT_COMMIT 8485012281/db-application:$GIT_COMMIT'
 		    sh 'sleep 30'
 		    sh 'docker ps'
 	    }
