@@ -38,13 +38,13 @@ pipeline{
 	    }
     }
 	  
-//     stage('mysql run on remote') {
-// 	    steps {
-// 		    sh 'docker run -d -p $MYSQL_PORT:3306 --name mysql-$GIT_COMMIT -e MYSQL_ROOT_PASSWORD=root mysql'  
-// 		    sh 'sleep 30'
-// // 		    sh 'ansible-playbook container-playbook.yml --extra-vars "image_name=$DB_IMG port=$MYSQL_PORT passwd=$MYSQL_PASS"'
-// 	    }
-//     } 
+    stage('mysql run on remote') {
+	    steps {
+		    sh 'docker run -d -p $MYSQL_PORT:3306 --name mysql-$GIT_COMMIT -e MYSQL_ROOT_PASSWORD=root mysql'  
+		    sh 'sleep 30'
+// 		    sh 'ansible-playbook container-playbook.yml --extra-vars "image_name=$DB_IMG port=$MYSQL_PORT passwd=$MYSQL_PASS"'
+	    }
+    } 
 	  
     stage('maven location') {
 	    steps {
