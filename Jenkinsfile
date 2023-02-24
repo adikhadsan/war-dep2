@@ -51,8 +51,8 @@ pipeline{
 		    sh'''
 		      pwd
 		      ls
-		      sudo mvn -f $FILE_PATH clean
-		      sudo mvn -f $FILE_PATH install
+		      mvn clean -f $FILE_PATH 
+		      mvn install -f $FILE_PATH 
 		      cp $FILE_PATH/target/"${fname}"*.war .
 		      '''
 	    }
