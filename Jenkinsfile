@@ -13,7 +13,7 @@ pipeline{
 	        DB_IMG= 'mysql'
 	        MYSQL_PASS= 'root'
 	        MYSQL_PORT= 5000
-	        FILE_PATH= "/home/vobxuser/code"
+	        FILE_PATH= "/home/vboxuser/code"
 
 // 	        docker= sh(script: 'sshpass -p s1 ssh vboxuser@192.168.56.102 docker --version',returnStdout: true)
 // 	        file_path=""
@@ -51,8 +51,8 @@ pipeline{
 		    sh'''
 		      pwd
 		      ls
-		      sudo mvn clean -f $FILE_PATH 
-		      sudo mvn install -f $FILE_PATH 
+		      mvn clean -f $FILE_PATH 
+		      mvn install -f $FILE_PATH 
 		      cp $FILE_PATH/target/"${fname}"*.war .
 		      '''
 	    }
